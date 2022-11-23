@@ -1,3 +1,5 @@
+package programmers;
+
 class num1 {
     public void solution(){
         int n = 1000000;
