@@ -1,4 +1,6 @@
-package jpabasic.ex1hellojpa;
+package jpabasic.ex1hellojpa.EntityManager;
+
+import jpabasic.ex1hellojpa.Member;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -6,7 +8,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.List;
 
-public class JpaMain2 {
+public class JpaMain3 {
     public static void main(String[] args) {
         //persistence->entitymanagerfactory->entitymanager
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
@@ -16,21 +18,18 @@ public class JpaMain2 {
 
         //로직
         try {
-            //jpql
+            //비영속
+            Member member = new Member();
+            member.setId(100L);
+            member.setName("HelloJPA");
 
-            //member객체들을 전부 가져와라 m <- 엔티티
+            //영속(db에 저장은 x)
+            em.persist(member);
 
-            //1번부터 10개 가져와라
-            //.setFirstResult(1)
-            //.setMaxResults(10)
+            //영속해제
+//            em.detach(member);
 
-            List<Member> resultList = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10)
-                    .getResultList();
-            for (Member member : resultList) {
-                System.out.println("member.getName() = " + member.getName());
-            }
+            //커밋시 db에 저장
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
