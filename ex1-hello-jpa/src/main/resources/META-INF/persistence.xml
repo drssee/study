@@ -8,15 +8,24 @@
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="javax.persistence.jdbc.user" value="sa"/>
             <property name="javax.persistence.jdbc.password" value=""/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/test"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/test;MODE=LEGACY"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+
             <!-- 옵션 -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
+
             <!--size만큼 영손컨텍스트에 모았다가 한번에 쿼리문을 날림-->
             <property name="hibernate.jdbc.batch_size" value="10"/>
-            <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
+
+            <!--애플리케이션 실행시에 자동으로 ddl문 실행-->
+            <!--create, 애플리케이션 실행시 기존테이블 드랍하고 새로 생성-->
+            <!--create-drop, create와 같으나 애플리케이션 종료후 드랍-->
+            <!--update, 변경 내용만 alter-->
+            <!--validate, 엔티티와 테이블이 제대로 맵핑 됐는지 확인-->
+            <!--none, x-->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
         </properties>
     </persistence-unit>
 </persistence>

@@ -1,47 +1,72 @@
 package jpabasic.ex1hellojpa;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.*;
+import org.hibernate.Hibernate;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Objects;
+
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
 //@Table(name = "MEMBER")
+//@Table(uniqueConstraints = "유니크 제약조건 이름")
 public class Member {
 
-    public Member(){}
-
-    public Member(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     @Id
-//    @Column(name="id")
     private Long id;
+
+    //(updatable=false)변경되도 db에 update되지 않음
+    //(nullable=false) notnull
+    //(columnDefinition = "varchar(100) default 11") 임의로 정의
+    @Column(name="name",updatable = false, nullable = false)
     private String name;
 
-    public Long getId() {
-        return id;
-    }
+    private Integer age;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    //Ordinal로 사용시 수정이 어려워 String 사용 권장
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
 
-    public String getName() {
-        return name;
-    }
+    //timestamp(날짜+시간)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
 
-    public void setName(String name) {
-        this.name = name;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModifiedDate;
+
+    //자바8이상
+    private LocalDate testLocalDate;//연월
+    private LocalDateTime testLocalDateTime;//연월일+시간
+
+    //db에 쓸 변수가 아님
+    @Transient
+    private int temp;
+
+    @Lob
+    private String description;
+
+    public Member(Long id,String name) {
+        this.id=id;
+        this.name=name;
     }
 
     @Override
-    public String toString() {
-        return "Member{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Member member = (Member) o;
+        return id != null && Objects.equals(id, member.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
