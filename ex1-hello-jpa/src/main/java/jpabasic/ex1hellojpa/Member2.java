@@ -36,7 +36,7 @@ public class Member2 {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_SEQ")
     private Long id;
 
-    @Column(name="name",nullable = false)
+    @Column(name="name")
     private String username;
 
     public Member2(){}

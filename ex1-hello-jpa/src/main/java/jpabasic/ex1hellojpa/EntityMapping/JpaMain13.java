@@ -19,10 +19,10 @@ public class JpaMain13 {
             member1.setUsername("A");
 
             Member2 member2 = new Member2();
-            member1.setUsername("B");
+            member2.setUsername("B");
 
             Member2 member3 = new Member2();
-            member1.setUsername("C");
+            member3.setUsername("C");
 
             System.out.println("=========");
 

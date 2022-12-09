@@ -15,6 +15,7 @@
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.id.new_generator_mapping" value="true"/>
 
             <!--size만큼 영손컨텍스트에 모았다가 한번에 쿼리문을 날림-->
             <property name="hibernate.jdbc.batch_size" value="10"/>
