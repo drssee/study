@@ -52,6 +52,18 @@ public class Member {
     @Lob
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "team_team_id")
+    private Team team;
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     public Member(Long id,String name) {
         this.id=id;
         this.name=name;
