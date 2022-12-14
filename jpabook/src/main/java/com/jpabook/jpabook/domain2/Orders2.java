@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,5 +29,10 @@ public class Orders2 {
     private OrderStatus status;
 
     @OneToMany(mappedBy = "order_id")
-    private List<OrderItem2> orderItems;
+    private List<OrderItem2> orderItems = new ArrayList<>();
+
+    public void setOrderItems(OrderItem2 orderItems2) {
+        this.orderItems.add(orderItems2);
+        orderItems2.setOrder_id(this);
+    }
 }

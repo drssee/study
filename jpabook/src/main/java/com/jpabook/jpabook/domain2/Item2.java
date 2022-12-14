@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,4 @@ public class Item2 {
     private Integer price;
 
     private Integer stockQuantity;
-
-    @OneToMany(mappedBy = "item2")
-    private List<OrderItem2> orderItems;
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,5 +23,10 @@ public class Member2 {
     private String zipcode;
 
     @OneToMany(mappedBy = "member2")
-    private List<Orders2> orders;
+    private List<Orders2> orders = new ArrayList<>();
+
+    public void setOrders(Orders2 orders2) {
+        this.orders.add(orders2);
+        orders2.setMember2(this);
+    }
 }

@@ -2,6 +2,8 @@ package com.jpabook.jpabook;
 
 import com.jpabook.jpabook.domain.Member;
 import com.jpabook.jpabook.domain.Order;
+import com.jpabook.jpabook.domain2.OrderItem2;
+import com.jpabook.jpabook.domain2.Orders2;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -28,7 +30,23 @@ public class Main {
             System.out.println();
 
             System.out.println("======== 예제2 =========");
+            Orders2 orders2 = new Orders2();
+            OrderItem2 orderItem2 = new OrderItem2();
 
+            //객체 연관관계 편의 메서드(양방향 커스텀)
+            orders2.setOrderItems(orderItem2);
+
+            em.persist(orderItem2);
+            em.persist(orders2);
+
+            Long id = orders2.getId();
+            System.out.println("id = " + id);
+
+            em.flush();
+            em.clear();
+
+            Orders2 findOrders2 = em.find(Orders2.class, id);
+            System.out.println("orders21.getOrderItems() = " + findOrders2.getOrderItems());
             System.out.println("======== 예제2 =========");
             tx.commit();
         } catch (Exception e) {
