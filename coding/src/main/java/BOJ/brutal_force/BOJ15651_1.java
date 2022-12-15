@@ -1,4 +1,4 @@
-package BOJ;
+package BOJ.brutal_force;
 
 import java.io.*;
 import java.util.StringTokenizer;
