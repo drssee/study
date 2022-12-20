@@ -48,6 +48,11 @@ public class Main {
             Orders2 findOrders2 = em.find(Orders2.class, id);
             System.out.println("orders21.getOrderItems() = " + findOrders2.getOrderItems());
             System.out.println("======== 예제2 =========");
+
+            System.out.println("======== 예제3 =========");
+
+            System.out.println("======== 예제3 =========");
+
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
