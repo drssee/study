@@ -1,15 +1,12 @@
 package jpabasic.ex1hellojpa.RelationMapping;
 
-import jpabasic.ex1hellojpa.Member3;
-import jpabasic.ex1hellojpa.Member4;
-import jpabasic.ex1hellojpa.Team;
-import jpabasic.ex1hellojpa.Team2;
+import jpabasic.ex1hellojpa.domain.member.Member4;
+import jpabasic.ex1hellojpa.domain.team.Team2;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain18 {
     public static void main(String[] args) {

@@ -1,5 +1,7 @@
-package jpabasic.ex1hellojpa;
+package jpabasic.ex1hellojpa.domain.member;
 
+import jpabasic.ex1hellojpa.domain.RoleType;
+import jpabasic.ex1hellojpa.domain.team.Team;
 import lombok.*;
 import org.hibernate.Hibernate;
 

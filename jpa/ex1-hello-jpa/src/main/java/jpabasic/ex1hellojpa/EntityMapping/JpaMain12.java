@@ -1,7 +1,6 @@
 package jpabasic.ex1hellojpa.EntityMapping;
 
-import jpabasic.ex1hellojpa.Member2;
-import org.hibernate.engine.spi.SessionFactoryDelegatingImpl;
+import jpabasic.ex1hellojpa.domain.member.Member2;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

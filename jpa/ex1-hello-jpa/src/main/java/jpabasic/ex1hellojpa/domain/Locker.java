@@ -1,4 +1,6 @@
-package jpabasic.ex1hellojpa;
+package jpabasic.ex1hellojpa.domain;
+
+import jpabasic.ex1hellojpa.domain.member.Member4;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,8 +1,7 @@
 package jpabasic.ex1hellojpa.RelationMapping;
 
-import jpabasic.ex1hellojpa.Member;
-import jpabasic.ex1hellojpa.Member3;
-import jpabasic.ex1hellojpa.Team;
+import jpabasic.ex1hellojpa.domain.member.Member3;
+import jpabasic.ex1hellojpa.domain.team.Team;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

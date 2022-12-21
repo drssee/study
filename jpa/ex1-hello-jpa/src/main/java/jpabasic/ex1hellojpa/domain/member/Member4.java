@@ -1,5 +1,7 @@
-package jpabasic.ex1hellojpa;
+package jpabasic.ex1hellojpa.domain.member;
 
+import jpabasic.ex1hellojpa.domain.Locker;
+import jpabasic.ex1hellojpa.domain.team.Team2;
 import lombok.Getter;
 import lombok.Setter;
 

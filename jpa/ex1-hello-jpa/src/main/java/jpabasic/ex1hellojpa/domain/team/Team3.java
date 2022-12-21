@@ -1,5 +1,7 @@
-package jpabasic.ex1hellojpa;
+package jpabasic.ex1hellojpa.domain.team;
 
+import jpabasic.ex1hellojpa.domain.common.BaseEntity;
+import jpabasic.ex1hellojpa.domain.member.Member4;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Team2 {
+public class Team3 extends BaseEntity {
 
     @Id
     @GeneratedValue

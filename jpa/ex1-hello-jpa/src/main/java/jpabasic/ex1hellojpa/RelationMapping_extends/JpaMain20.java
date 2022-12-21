@@ -1,7 +1,8 @@
-package jpabasic.ex1hellojpa.RelationMapping;
+package jpabasic.ex1hellojpa.RelationMapping_extends;
 
-import jpabasic.ex1hellojpa.domain.member.Member6;
 import jpabasic.ex1hellojpa.domain.MemberProduct;
+import jpabasic.ex1hellojpa.domain.items.Movie;
+import jpabasic.ex1hellojpa.domain.member.Member6;
 import jpabasic.ex1hellojpa.domain.product.Product2;
 
 import javax.persistence.EntityManager;
@@ -9,7 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-public class JpaMain19 {
+public class JpaMain20 {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
@@ -17,27 +18,26 @@ public class JpaMain19 {
         tx.begin();
 
         try {
-            //N:N을 1:N N:1로 풀어냄
+            //JPA 상속관계 매핑 기본전략은 싱글테이블 전략
 
-            Member6 member6 = new Member6();
-            member6.setUsername("member1");
-            Product2 product2 = new Product2();
-            product2.setName("product1");
+            Movie movie = new Movie();
+            movie.setDirector("aaaa");
+            movie.setActor("bbbb");
+            movie.setName("바람과함께사라지다");
+            movie.setPrice(10000);
 
-            //풀어낸 중간테이블
-            MemberProduct memberProduct = new MemberProduct();
-            memberProduct.setMember(member6);
-            memberProduct.setProduct(product2);
+            em.persist(movie);
 
-            em.persist(member6);
-            em.persist(product2);
-            em.persist(memberProduct);
+            System.out.println("===================");
+            System.out.println("pk = "+movie.getId());
+            System.out.println("===================");
 
             em.flush();
             em.clear();
 
-            MemberProduct memberProduct1 = em.find(MemberProduct.class, 3L);
-            System.out.println("memberProduct1 = " + memberProduct1);
+            Movie findMovie = em.find(Movie.class, movie.getId());
+
+            System.out.println(findMovie.getName());
 
             tx.commit();
         } catch (Exception e) {

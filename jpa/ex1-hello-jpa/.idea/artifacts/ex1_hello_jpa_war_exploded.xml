@@ -14,7 +14,7 @@
           <element id="module-output" name="ex1-hello-jpa" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Maven: com.h2database:h2:2.1.214" />
+          <element id="library" level="project" name="Maven: com.h2database:h2:1.4.199" />
           <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.3.2.Final" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:5.3.10.Final" />
           <element id="library" level="project" name="Maven: org.javassist:javassist:3.23.2-GA" />
