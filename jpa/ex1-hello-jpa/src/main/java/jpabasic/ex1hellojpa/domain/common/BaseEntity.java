@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-@MappedSuperclass //공통칼럼 적용 어노테이션
+@MappedSuperclass //공통칼럼 적용 어노테이션 //엔티티x
 @Getter
 @Setter
 public abstract class BaseEntity {
