@@ -4,6 +4,7 @@ import com.jpabook.jpabook.domain.Member;
 import com.jpabook.jpabook.domain.Order;
 import com.jpabook.jpabook.domain2.OrderItem2;
 import com.jpabook.jpabook.domain2.Orders2;
+import com.jpabook.jpabook.domain4.Book4;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -52,6 +53,16 @@ public class Main {
             System.out.println("======== 예제3 =========");
 
             System.out.println("======== 예제3 =========");
+
+            System.out.println("======== 예제4 =========");
+
+            Book4 book4 = new Book4();
+            book4.setName("JPA");
+            book4.setAuthor("저자");
+
+            em.persist(book4);
+
+            System.out.println("======== 예제4 =========");
 
             tx.commit();
         } catch (Exception e) {

@@ -29,7 +29,7 @@ public class Orders3 {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    //양방향 연관관계 편의 메서드   
+    //양방향 연관관계 편의 메서드
     public void createOrders(Member3 member3,Delivery3 delivery3){
         this.member3 = member3;
         member3.getOrders().add(this);
