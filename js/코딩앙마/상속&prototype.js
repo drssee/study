@@ -123,5 +123,4 @@ const Bmw3 = function(color){
 const x8 = new Bmw3('red');//return this = {getColor: f()}
 // x8.c; //참조할 길이 없어진 상위 스코프의 매개변수
 x8.getColor();
- 
 
