@@ -24,6 +24,7 @@ export default {
     },
 
     remove(keyword){
+        console.log('HistoryModel.remove()')
         //매개변수 keyword와 일치하는 item은 필터링
         this.data=this.data.filter(item=>item.keyword!==keyword)
     }
