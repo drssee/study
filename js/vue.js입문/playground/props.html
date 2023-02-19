@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <app-header v-bind:message_child="message"></app-header>
+        <app-content v-bind:number_child="number"></app-content>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    
+    <script>
+        //컴포넌트끼리 다른 데이터범위를 가진다
+        
+        var appHeader = {//컴포넌트
+            template: '<h1>{{ message_child }}</h1>',
+            props: ['message_child']
+        }
+        var appContent = {
+            template: '<div>{{ number_child }}</div>',
+            props: ['number_child']
+        }
+
+        new Vue({//Vue인스턴스는 ROOT 컴포넌트
+            el: '#app',
+            components: {
+                'app-header': appHeader,
+                'app-content': appContent
+            },
+            data: {
+                message: 'Hello World!!',
+                number: 10
+            }
+        })
+    </script>
+</body>
+</html>

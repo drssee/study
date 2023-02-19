@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- ////////ROOT 컴포넌트 영역 -->
+    <div id="app">
+        <p>{{ number }}</p>
+
+        <!-- dmz 비슷한 역할 상위컴포넌트와의 통로 -->
+        <!-- 금요일에 삽질하던 부분 상위에서 changeoffice 이벤트가 발생하면 변경되는 officeid를 하위컴포넌트의 props에 전달해주면 끝이었네 -->
+        <app-header 
+            v-on:pass="passEventBubbling"
+            v-bind:propsdata="number">
+        </app-header>
+        <!-- dmz 비슷한 역할 상위컴포넌트와의 통로 -->
+        <app-content 
+            @add-number="addNumber2($event,number)">
+    </app-content>
+    </div>
+    <!-- ///////// -->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        var appHeader = {
+            template: '<button v-on:click="passEvent">{{ propsdata }}</button>',
+            methods: {
+                passEvent: function() {
+                    this.$emit('pass');//vue.js가 제공하는 api
+                }
+            },
+            props: [
+                'propsdata'
+            ]
+        }
+        var appContent = {
+            template: '<button @click="addNumber">add</button>',
+            methods: {
+                addNumber(){
+                    this.$emit('add-number')
+                }
+            }
+        }
+
+        Vue.component('app-header',appHeader);
+
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    number: 0
+                }
+            },
+            components: {
+                'app-content': appContent
+            },
+            methods: {
+                passEventBubbling() {
+                    console.log('passEventBubbling')
+                },
+                addNumber2(e,number) {
+                    // console.log('addNumberBubbling')
+                    // console.log(this)
+                    console.log(number)
+                    this.number++;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
