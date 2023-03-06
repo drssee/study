@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.zerock.b01.repository.BoardRepository;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -14,6 +18,8 @@ import java.sql.SQLException;
 @SpringBootTest
 @Log4j2
 class B01ApplicationTests {
+	@Autowired
+	private BoardRepository boardRepository;
 
 	@Autowired
 	private DataSource dataSource;

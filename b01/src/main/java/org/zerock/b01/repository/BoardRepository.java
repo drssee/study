@@ -7,7 +7,4 @@ import org.zerock.b01.repository.search.BoardSearch;
 
 //Spring Data Jpa 인터페이스와 연결을 하고, QueryDsl과 연동한 BoardSearch(Impl)를 추가
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardSearch {
-    //테스트용
-    @Query(value = "select now()", nativeQuery = true)
-    String getTime();
 }

@@ -5,29 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script type="module" src="./app.mjs"></script>
 </head>
 <body>
-    <label>User name <input type="text"></label>
-    <em class="message"></em>
-    <script>
-        const MIN_USER_NAME_LENGTH = 5;
-        const $input = document.querySelector('input[type=text]');
-        const $msg = document.querySelector('.message');
 
-        // const checkUserNameLength = min => {
-        //     $msg.textContent = $input.value.length < min ? `이름은 ${min}자 이상 입력해주세요` : '';
-        // };
-
-
-        // $input.onblur = () => {
-        //     checkUserNameLength(MIN_USER_NAME_LENGTH);
-        // };
-
-        const checkUserNameLength = min => e => {
-            $msg.textContent = $input.value.length < min ? `이름은 ${min}자 이상 입력해주세요` : '';
-        }
-
-        $input.onblur = checkUserNameLength(MIN_USER_NAME_LENGTH);//함수의 결과값이 함수이기 때문에 이벤트 핸들러로 적합하다
-    </script>
 </body>
 </html>
