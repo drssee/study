@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -41,16 +42,19 @@ public class PageRequestDTO {
     public String getLink() {
         if (link == null) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("page=").append(this.page);
-            stringBuilder.append("&size=").append(this.size);
+            stringBuilder.append("page=" + this.page);
+            stringBuilder.append("&size=" + this.size);
 
             if (type != null && type.length() > 0) {
-                stringBuilder.append("&type=").append(this.type);
+                stringBuilder.append("&type=" + this.type);
             }
             if (keyword != null) {
-                stringBuilder.append("&keyword=").append(URLEncoder.encode(keyword, StandardCharsets.UTF_8));
-                link = stringBuilder.toString();
+                try {
+                    stringBuilder.append("&keyword=" + URLEncoder.encode(keyword, "UTF-8"));
+                } catch ( UnsupportedEncodingException e) {
+                }
             }
+            link = stringBuilder.toString();
         }
 
         return link;
