@@ -11,17 +11,24 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "board")
 public class Reply extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rno;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ToString.Exclude
     private Board board;
 
     private String replyText;
 
     private String replyer;
+
+    public void changeText(String text) {
+        this.replyText = text;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 }
