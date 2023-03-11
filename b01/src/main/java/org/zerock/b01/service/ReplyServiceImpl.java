@@ -62,7 +62,7 @@ public class ReplyServiceImpl implements ReplyService {
         Pageable pageable = PageRequest.of(
                 pageRequestDTO.getPage() <= 0 ? 0 : pageRequestDTO.getPage() - 1,
                 pageRequestDTO.getSize(),
-                Sort.by("rno").descending());
+                Sort.by("rno").ascending());
         //listOfBoard 커스텀임
         Page<Reply> result = replyRepository.listOfBoard(bno, pageable);
         List<ReplyDTO> dtoList = result.getContent().stream().map(reply ->
