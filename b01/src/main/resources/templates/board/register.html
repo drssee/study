@@ -31,9 +31,16 @@
               <input type="text" name="writer" class="form-control" placeholder="Writer">
             </div>
 
+            <div class="input-group mb-3">
+              <span class="input-group-text">Images</span>
+              <div class="float-end uploadHidden">
+                <button type="button" class="btn btn-primary uploadFileBtn">Add Files</button>
+              </div>
+            </div>
+
             <div class="my-4">
               <div class="float-end">
-                <button type="submit" class="btn btn-primary">submit</button>
+                <button type="submit" class="btn btn-primary submitBtn">submit</button>
                 <button type="reset" class="btn btn-secondary">Reset</button>
               </div>
             </div>
@@ -42,6 +49,37 @@
       </div>
     </div>
   </div>
+
+  <!--섬네일-->
+  <div class="row mt-3">
+    <div class="col">
+      <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;"></div>
+    </div>
+  </div>
+
+<!--첨부파일 추가를 위한 모달창-->
+<div class="modal uploadModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Upload File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <input type="file" name="files" class="form-control" multiple>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary uploadBtn">UploadBtn</button>
+        <button type="button" class="btn btn-outline-dark closeUploadBtn">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/js/upload.js"></script>
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
@@ -56,4 +94,90 @@
     }
     alert(errorMsg);
   }
+
+  //업로드 모달
+  const uploadModal = new bootstrap.Modal(document.querySelector('.uploadModal'));
+  document.querySelector('.uploadFileBtn').addEventListener('click', e => {
+    e.stopPropagation();
+    e.preventDefault();
+    uploadModal.show();
+  },false);
+
+  document.querySelector('.uploadBtn').addEventListener('click', e => {
+    const formObj = new FormData();
+    const fileInpupt = document.querySelector('input[name="files"]');
+    console.log(fileInpupt.files);
+    const files = fileInpupt.files;
+
+    for (let i=0;i<files.length;i++) {
+      formObj.append("files", files[i]);
+    }
+
+    uploadToServer(formObj)
+            .then(result => {
+              for (const uploadResult of result) {
+                showUploadFile(uploadResult);
+              }
+            })
+            .catch(e => {
+              console.error(e);
+            })
+            .finally(() => {
+              uploadModal.hide();
+            })
+  },false);
+
+  const uploadResult = document.querySelector('.uploadResult');
+
+  function showUploadFile({uuid, fileName, link}) {
+    const str = `<div class=card col-4>
+<div class="card-header d-flex justify-content-center">
+${fileName}
+<button class="btn-sm btn-danger" onclick="javascript:removeFile('${uuid}','${fileName}', this)">X</button>
+</div>
+<div class="card-body">
+<img src="/view/${link}" data-src="${uuid+"_"+fileName}">
+</div>
+</div>`
+    uploadResult.innerHTML += str;
+  }
+
+  function removeFile(uuid, fileName, obj) {
+    console.log(uuid);
+    console.log(fileName);
+    console.log(obj);
+
+    //클릭된 X 버튼의 가장 가까운 .card 조상이 선택되고(썸네일이미지)
+    //server에 저장된 이미지 지우고
+    //(썸네일이미지) 돔 엘리멘트 remove
+    const targetDiv = obj.closest('.card')
+    removeFileToServer(uuid, fileName)
+            .then(data => {
+              targetDiv.remove();
+            });
+  }
+
+  //실제 서버 컴퓨터에 이미지 업로드는 등록전 upload버튼을 눌렀을때고
+  //글 등록버튼을 누르면 이미 서버에 업로드된 이미지 파일 이름을 db에 저장하는것
+  document.querySelector('.submitBtn').addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const target = document.querySelector('.uploadHidden');
+
+    const uploadFiles = uploadResult.querySelectorAll('img')
+
+    let str = '';
+
+    for (let i = 0 ; i < uploadFiles.length ; i++) {
+      const uploadFile = uploadFiles[i];
+      let imgLink = uploadFile.getAttribute('src');
+      imgLink = imgLink.substring(imgLink.indexOf('_')+1);
+      str += `<input type='hidden' name='fileNames' value='${imgLink}'>`
+    }
+
+    target.innerHTML = str;
+
+    document.querySelector('form').submit();
+  },false);
 </script>

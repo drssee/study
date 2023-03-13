@@ -48,8 +48,8 @@ public class Board extends BaseEntity {
     public void clearImages() {
         imageSet.forEach(boardImage -> {
             boardImage.changeBoard(null);
-            this.imageSet.clear();
         });
+        this.imageSet.clear();
     }
 
     public void change(String title, String content) {

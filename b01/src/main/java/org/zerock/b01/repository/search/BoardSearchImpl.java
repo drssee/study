@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.zerock.b01.domain.Board;
 import org.zerock.b01.domain.QBoard;
 import org.zerock.b01.domain.QReply;
+import org.zerock.b01.dto.BoardImageDTO;
 import org.zerock.b01.dto.BoardListAllDTO;
 import org.zerock.b01.dto.BoardListReplyCountDTO;
 
@@ -152,6 +153,24 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         JPQLQuery<Board> boardJPQLQuery = from(qBoard);
         boardJPQLQuery.leftJoin(qReply).on(qReply.board.eq(qBoard));
 
+        if ((types != null && types.length > 0) && keyword != null) {
+            BooleanBuilder booleanBuilder = new BooleanBuilder();
+            for(String type : types) {
+                switch (type) {
+                    case "t":
+                        booleanBuilder.or(qBoard.title.contains(keyword));
+                        break;
+                    case "c":
+                        booleanBuilder.or(qBoard.content.contains(keyword));
+                        break;
+                    case "w":
+                        booleanBuilder.or(qBoard.writer.contains(keyword));
+                        break;
+                }
+            }
+            boardJPQLQuery.where(booleanBuilder);
+        }
+
         boardJPQLQuery.groupBy(qBoard);
 
         getQuerydsl().applyPagination(pageable, boardJPQLQuery);
@@ -172,10 +191,20 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
                     .replyCount(replyCount)
                     .build();
 
+            List<BoardImageDTO> imageDTOS = board1.getImageSet().stream().sorted()
+                    .map(boardImage -> BoardImageDTO.builder()
+                            .uuid(boardImage.getUuid())
+                            .fileName(boardImage.getFileName())
+                            .ord(boardImage.getOrd())
+                            .build()
+                    ).collect(Collectors.toList());
+
+            dto.setBoardImages(imageDTOS);
+
             return dto;
         }).collect(Collectors.toList());
 
-        long totalCount = boardJPQLQuery.fetchCount();
+        long totalCount = tupleJPQLQuery.fetchCount();
 
         return new PageImpl<>(dtoList, pageable, totalCount);
     }

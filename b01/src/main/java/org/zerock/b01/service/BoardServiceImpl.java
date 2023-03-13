@@ -26,15 +26,15 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Long register(BoardDTO boardDTO) {
-        Board board = modelMapper.map(boardDTO, Board.class);
+        Board board = dtoToEntity(boardDTO);
         return boardRepository.save(board).getBno();
     }
 
     @Override
     public BoardDTO readOne(Long bno) {
-        Optional<Board> result = boardRepository.findById(bno);
+        Optional<Board> result = boardRepository.findByIdWithImages(bno);
         Board board = result.orElseThrow();
-        return modelMapper.map(board, BoardDTO.class);
+        return entityToDTO(board);
     }
 
     @Override
@@ -43,6 +43,14 @@ public class BoardServiceImpl implements BoardService {
         Board board = result.orElseThrow();
         //파라미터로 넘어온 변경할 boardDTO의 타이틀과 컨텐츠를 change메서드에 전달
         board.change(boardDTO.getTitle(), boardDTO.getContent());
+
+        //첨부파일의 처리
+        board.clearImages();
+        List<String> fileNames = boardDTO.getFileNames();
+        if (fileNames != null) {
+            board.addImage(fileNames.get(0), fileNames.get(1));
+        }
+
         boardRepository.save(board);
     }
 
@@ -86,6 +94,15 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public PageResponseDTO<BoardListAllDTO> listWithAll(PageRequestDTO pageRequestDTO) {
-        return null;
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+        Page<BoardListAllDTO> result = boardRepository.searchWithAll(types, keyword, pageable);
+
+        return PageResponseDTO.<BoardListAllDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(result.getContent())
+                .total((int)result.getTotalElements())
+                .build();
     }
 }
