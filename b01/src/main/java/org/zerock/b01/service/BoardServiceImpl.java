@@ -48,7 +48,10 @@ public class BoardServiceImpl implements BoardService {
         board.clearImages();
         List<String> fileNames = boardDTO.getFileNames();
         if (fileNames != null) {
-            board.addImage(fileNames.get(0), fileNames.get(1));
+            fileNames.forEach(e -> {
+                String[] arr = e.split("_");
+                board.addImage(arr[0], arr[1]);
+            });
         }
 
         boardRepository.save(board);
