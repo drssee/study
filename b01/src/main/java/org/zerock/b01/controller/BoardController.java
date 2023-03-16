@@ -74,6 +74,7 @@ public class BoardController {
     }
 
     @PostMapping("/modify")
+    @PreAuthorize("principal.username == #boardDTO.writer")
     public String modify(PageRequestDTO pageRequestDTO,
                          @Valid BoardDTO boardDTO,
                          BindingResult bindingResult,
@@ -97,6 +98,7 @@ public class BoardController {
     }
 
     @PostMapping("/remove")
+    @PreAuthorize("principal.username == #boardDTO.writer")
     public String remove(BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
         log.info("remove post.. " + boardDTO.getBno());
         boardService.remove(boardDTO.getBno());

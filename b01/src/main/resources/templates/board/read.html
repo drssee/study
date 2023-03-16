@@ -277,6 +277,12 @@
     e.preventDefault()
     e.stopPropagation()
 
+    if (!hasAuth) {
+      alert('댓글 작성자만 수정이 가능합니다.')
+      modifyModal.hide()
+      return
+    }
+
     replyObj = {
       bno: bno,
       rno: replyHeader.innerHTML,
@@ -302,6 +308,12 @@
   removeBtn.addEventListener('click', e => {
     e.preventDefault()
     e.stopPropagation()
+
+    if (!hasAuth) {
+      alert('댓글 작성자만 수정이 가능합니다.')
+      modifyModal.hide()
+      return
+    }
 
     removeReply(replyHeader.innerHTML)
             .then(res => {
