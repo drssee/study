@@ -45,6 +45,8 @@ public class CustomSecurityConfig {
 
         http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
 
+        http.oauth2Login().loginPage("/member/login");
+
         return http.build();
     }
 
