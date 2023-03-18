@@ -14,6 +14,7 @@ import java.util.Map;
 @Setter
 @ToString
 //스프링시큐리티 userdetailinfo 공식 구현체인 User를 상속받고 super()호출
+//소셜 로그인을 위한 OAuth2User도 구현
 public class MemberSecurityDTO extends User implements OAuth2User {
 
     private String mid;
@@ -22,7 +23,7 @@ public class MemberSecurityDTO extends User implements OAuth2User {
     private boolean del;
     private boolean social;
 
-    private Map<String, Object> props;
+    private Map<String, Object> props; //소셜 로그인 정보
 
     public MemberSecurityDTO(String username,
                              String password,
