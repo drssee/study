@@ -19,3 +19,8 @@ logging:
     org.springframework: info
     org.zerock: debug
     org.springframework.security: debug
+
+org:
+  zerock:
+    jwt:
+      secret: hello1234567890

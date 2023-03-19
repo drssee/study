@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.api01.domain.APIUser;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class APIUserRepositoryTests {
     private APIUserRepository apiUserRepository;
 
     @Test
+    @Transactional
     public void testInserts() {
         List<APIUser> apiUsers = new ArrayList<>();
         IntStream.rangeClosed(1,100).forEach(i -> {
