@@ -17,12 +17,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.zerock.api01.security.APIUserDetailsService;
 import org.zerock.api01.security.filter.APILoginFilter;
 import org.zerock.api01.security.filter.RefreshTokenFilter;
 import org.zerock.api01.security.filter.TokenCheckFilter;
 import org.zerock.api01.security.handler.APILoginSuccessHandler;
 import org.zerock.api01.util.JWTUtil;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -93,8 +99,29 @@ public class CustomSecurityConfig {
         RefreshTokenFilter refreshTokenFilter = new RefreshTokenFilter("/refreshToken", jwtUtil);
         http.addFilterBefore(refreshTokenFilter, TokenCheckFilter.class);
 
-        http.csrf().disable(); //csrf 토큰의 비활성화
+        //csrf 토큰의 비활성화
+        http.csrf().disable();
+        //cors 설정
+        http.cors(httpSecurityCorsConfigurer -> {
+           httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource());
+        });
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //세션 사용하지 않음
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        //cors 설정
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOriginPatterns(List.of("*"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
+        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        corsConfiguration.setAllowCredentials(true);
+
+        //cors 구현 객체에 설정 전달
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+
+        return urlBasedCorsConfigurationSource;
     }
 }
