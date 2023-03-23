@@ -91,7 +91,7 @@ public class CustomSecurityConfig {
         http.addFilterBefore(apiLoginFilter, UsernamePasswordAuthenticationFilter.class);
 
         //TokenCheckFilter
-        TokenCheckFilter tokenCheckFilter = new TokenCheckFilter(jwtUtil);
+        TokenCheckFilter tokenCheckFilter = new TokenCheckFilter(apiUserDetailsService, jwtUtil);
         //api로 시작하는 모든 경로는 TokenCheckFilter 동작
         http.addFilterBefore(tokenCheckFilter, UsernamePasswordAuthenticationFilter.class);
 

@@ -5,7 +5,11 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.zerock.api01.security.APIUserDetailsService;
 import org.zerock.api01.security.exception.AccessTokenException;
 import org.zerock.api01.util.JWTUtil;
 
@@ -21,6 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TokenCheckFilter extends OncePerRequestFilter {
 
+    private final APIUserDetailsService apiUserDetailsService;
     private final JWTUtil jwtUtil;
 
     @Override
@@ -37,7 +42,25 @@ public class TokenCheckFilter extends OncePerRequestFilter {
         log.info("JWTUtil: "+jwtUtil);
 
         try {
-            validateAccessToken(request);
+            //jwt 토큰을 체크한뒤, validate뒤에
+            //jwt 토큰 안에 담긴 유저아이디로 인증 객체를 만든뒤
+            //securitycontextholder에 저장 후 이용
+
+            Map<String, Object> payload = validateAccessToken(request);
+
+            //mid
+            String mid = (String) payload.get("mid");
+            log.info("mid: "+mid);
+
+            UserDetails userDetails = apiUserDetailsService.loadUserByUsername(mid);
+
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities()
+                    );
+
+            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
             filterChain.doFilter(request, response);
         } catch (AccessTokenException accessTokenException) {
             accessTokenException.sendResponseError(response);
